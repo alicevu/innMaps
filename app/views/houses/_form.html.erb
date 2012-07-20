@@ -1,0 +1,46 @@
+
+<%= simple_form_for @house do |f| %>
+  <%= f.input :address, as: :text, :input_html => { :rows => '2'} %>
+  <%= f.input :info, as: :text, :input_html => { :rows => '5'} %>
+  <%= f.input :area, as: :text, :input_html => { :rows => '2'} %>
+  <%= f.input :tenant, as: :text, :input_html => { :rows => '2'} %>
+  <%= f.input :price, as: :text, :input_html => { :rows => '3'} %>
+  <%= f.input :internet, as: :text, :input_html => { :rows => '2'} %>
+  <%= f.input :other, as: :text, :input_html => { :rows => '3'} %>
+  <%= f.input :stt, as: :text, :input_html => { :rows => '2'} %>
+  <%= f.input :contact, as: :text, :input_html => { :rows => '2'} %>
+  <%= f.input :geo_lat, as: :hidden%>
+  <%= f.input :geo_lng, as: :hidden%>
+  <div id="map_canvas" ></div>
+  <%= f.button :submit %>
+<% end %>
+
+<style type="text/css">
+  #map_canvas { height: 400px; width:900px; }
+</style>
+
+<script type="text/javascript"
+  src="http://maps.googleapis.com/maps/api/js?key=AIzaSyACihYFMXaJo8QJhhcaHyWpbyT0uIvlTmU&sensor=false">
+</script>
+<script type="text/javascript">
+  function initialize() {
+    var myOptions = {
+      center: new google.maps.LatLng(<%= @house.get_lat %>, <%= @house.get_lng %>),
+      zoom: 16,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    map = new google.maps.Map(document.getElementById("map_canvas"),
+        myOptions);
+    
+    marker = new google.maps.Marker({
+      map: map,
+      draggable:true,
+      position: new google.maps.LatLng(<%= @house.get_lat %>, <%= @house.get_lng %>)
+    });
+
+    google.maps.event.addListener(marker, 'dragend', function() {
+      $("#house_geo_lat").val(marker.getPosition().lat());
+      $("#house_geo_lng").val(marker.getPosition().lng());
+    });
+  }
+</script>

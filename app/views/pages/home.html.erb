@@ -1,0 +1,70 @@
+<div id="map_canvas" style="height:500px; width:940px"></div>
+
+<div id="myModal" class="modal hide fade" style="display: none; ">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3 id="address"></h3>
+  </div>
+  <div class="modal-body">
+    <p id="info"></p> 
+    <p id="area"></p> 
+    <p id="tenant"></p> 
+    <p id="price"></p> 
+    <p id="seemore"></p>
+  </div>
+</div>
+
+<% @houses = House.all %>
+<div data-spy="scroll" data-target="#navbarExample" data-offset="0" class="scrollspy-example"  >
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th width = "30%"><h4>Địa chỉ</h4></th>
+        <th width = "50%"><h4>Thông tin</h4></th>
+        <th><h4>Thời gian </h4></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @houses.each do |house| %>
+      <tr>
+        <td><%= link_to house.address.html_safe, house %></td>
+        <td><%= link_to house.info.html_safe, house %></td>
+        <td><%= house.updated_at %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<script type="text/javascript">
+
+  var myOptions = {
+    zoom: 11,
+    center: new google.maps.LatLng(21.0333333, 105.85),
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+
+  map = new google.maps.Map(document.getElementById("map_canvas"),
+      myOptions);
+  <% @houses = House.all %>
+  <% @houses.each do |house| %>
+    marker = new google.maps.Marker({
+      map: map,
+      position: new google.maps.LatLng(<%= house.get_lat %>, <%= house.get_lng %>)
+    });
+
+    google.maps.event.addListener(marker, 'click', function() {
+      $('#address').html('<%= house.address %>');
+      $('#info').html('<b>Thông tin: </b><%= house.info.gsub("\r\n", "<br>").html_safe %>');
+      $('#area').html('<b>Diện tích: </b><%= house.area.gsub("\r\n", "<br>").html_safe %>');
+      $('#tenant').html('<b>Số người ở: </b><%= house.tenant.gsub("\r\n", "<br>").html_safe %>');
+      $('#price').html('<b>Giá cả: </b><br><%= house.price.gsub("\r\n", "<br>").html_safe %>');
+      $('#seemore').html('<%= link_to "See more >>".html_safe, house %>');
+      $('#myModal').modal('show');
+      return false;
+    });
+  <% end %>
+
+
+</script>
+

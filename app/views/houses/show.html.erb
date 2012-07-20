@@ -1,0 +1,48 @@
+<ul class="breadcrumb">
+  <li>
+    <a href="/">innMaps</a> <span class="divider">/</span>
+  </li>
+  <li>
+    <a href="/houses">Houses</a> <span class="divider">/</span>
+  </li>
+  <li class="active">Show House</li>
+</ul>
+
+<p><b>Địa chỉ: </b></br><%= @house.address.gsub("\n","<br>").html_safe %></p>
+<p><b>Thông tin: </b></br><%= @house.info.gsub("\n","<br>").html_safe %></p>
+<p><b>Diện tích: </b></br><%= @house.area.gsub("\n","<br>").html_safe %></p>
+<p><b>Số người ở: </b></br><%= @house.tenant.gsub("\n","<br>").html_safe %></p>
+<p><b>Giá cả: </b></br><%= @house.price.gsub("\n","<br>").html_safe %></p>
+<p><b>Internet: </b></br><%= @house.internet.gsub("\n","<br>").html_safe %></p>
+<p><b>Khác: </b></br><%= @house.other.gsub("\n","<br>").html_safe %></p>
+<p><b>Trạng thái: </b></br><%= @house.stt.gsub("\n","<br>").html_safe %></p>
+<p><b>Liên lạc: </b></br><%= @house.contact.gsub("\n","<br>").html_safe %></p>
+<p><b>Bản đồ:</b></p>
+<div id="map_canvas" ></div>
+
+<style type="text/css">
+  #map_canvas { height: 400px; width:900px; }
+</style>
+
+<script type="text/javascript"
+  src="http://maps.googleapis.com/maps/api/js?key=AIzaSyACihYFMXaJo8QJhhcaHyWpbyT0uIvlTmU&sensor=false">
+</script>
+<script type="text/javascript">
+  function initialize() {
+    var myOptions = {
+      center: new google.maps.LatLng(<%= @house.get_lat %>, <%= @house.get_lng %>),
+      zoom: 16,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    map = new google.maps.Map(document.getElementById("map_canvas"),
+        myOptions);
+    
+    marker = new google.maps.Marker({
+      map: map,
+      position: new google.maps.LatLng(<%= @house.get_lat %>, <%= @house.get_lng %>)
+    });
+  }
+</script>
+
+<%= link_to 'Back', houses_path, class: 'btn' %>
+<%= link_to 'Edit', edit_house_path(@house), class: 'btn' %>
