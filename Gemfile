@@ -4,7 +4,7 @@ ruby '1.9.3'
 
 gem 'rails', '3.2.5'
 gem 'rb-readline'
-
+gem 'heroku'
 gem 'mongoid', '~> 2.4'
 gem 'mongoid_spacial'
 gem 'bson_ext'
@@ -20,7 +20,6 @@ gem "geocoder"
 # in production environments by default.
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
-  gem "heroku", ">= 1.19.1"
   gem 'coffee-rails', '~> 3.2.1'
   gem 'bootstrap-sass', '~> 2.0.4.0'
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
