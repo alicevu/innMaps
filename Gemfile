@@ -18,6 +18,7 @@ gem "geocoder"
 # in production environments by default.
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
+  gem "heroku", ">= 1.19.1"
   gem 'coffee-rails', '~> 3.2.1'
   gem 'bootstrap-sass', '~> 2.0.4.0'
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
@@ -29,7 +30,6 @@ end
 gem 'jquery-rails'
 
 gem 'simple_form'
-
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

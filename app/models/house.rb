@@ -14,11 +14,13 @@ class House
   field :stt, type: String
   field :contact, type: String
 
+  accepts_nested_attributes_for :item_images, :allow_destroy => true
+
   attr_accessor :geo_lat, :geo_lng
   attr_accessible :info, :address, :geo, :area, :price, :tenant, :internet, 
                   :other, :stt, :contact
 
-  # after_save :get_geo, if: "geo[:lat].blank?"
+  # has_many :images, autosave: true
 
   def get_lat
     geo[:lat] || "21.0333333"
@@ -28,10 +30,8 @@ class House
     geo[:lng] || "105.85"
   end
 
-  # def get_geo
-  #   s = Geocoder.search(address)
-  #   geo = {:lat=>s[0].latitude.to_s,:lng=>s[0].longitude.to_s}
-  #   save
-  # end
+  def image_url(size = "200x200")
+    item_images.first.try(:image_url, size)
+  end
 end
 
