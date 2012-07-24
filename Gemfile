@@ -1,8 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '1.9.3'
-
-gem 'rails', '3.2.5'
+gem 'rails', '3.2.2'
 gem 'rb-readline'
 gem 'heroku'
 gem 'mongoid', '~> 2.4'
